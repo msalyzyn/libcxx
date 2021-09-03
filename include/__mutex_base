@@ -48,7 +48,13 @@ class _LIBCPP_TYPE_VIS _LIBCPP_THREAD_SAFETY_ANNOTATION(capability("mutex")) mut
 public:
     _LIBCPP_INLINE_VISIBILITY
 #ifndef _LIBCPP_CXX03_LANG
+#if _MUTEX_REQUIRES_INITIALIZATION
+    mutex() _NOEXCEPT {
+      (void)std::__libcpp_mutex_init(&__m_);
+    }
+#else
     constexpr mutex() = default;
+#endif
 #else
     mutex() _NOEXCEPT {__m_ = (__libcpp_mutex_t)_LIBCPP_MUTEX_INITIALIZER;}
 #endif
