@@ -102,7 +102,9 @@ thread::hardware_concurrency() _NOEXCEPT
 #   if defined(_LIBCPP_WARNING)
         _LIBCPP_WARNING("hardware_concurrency not yet implemented")
 #   else
+#     if !defined(FREERTOS)
 #       warning hardware_concurrency not yet implemented
+#     endif
 #   endif
     return 0;  // Means not computable [thread.thread.static]
 #endif  // defined(CTL_HW) && defined(HW_NCPU)
