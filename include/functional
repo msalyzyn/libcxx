@@ -1583,9 +1583,12 @@ public:
     explicit __func(_Fp&& __f)
         : __f_(_VSTD::move(__f)) {}
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
     _LIBCPP_INLINE_VISIBILITY
     explicit __func(const _Fp& __f, const _Alloc& __a)
         : __f_(__f, __a) {}
+#pragma GCC diagnostic pop
 
     _LIBCPP_INLINE_VISIBILITY
     explicit __func(const _Fp& __f, _Alloc&& __a)
@@ -1754,10 +1757,13 @@ template <class _Rp, class... _ArgTypes> class __value_func<_Rp(_ArgTypes...)>
     _LIBCPP_INLINE_VISIBILITY
     ~__value_func()
     {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
         if ((void*)__f_ == &__buf_)
             __f_->destroy();
         else if (__f_)
             __f_->destroy_deallocate();
+#pragma GCC diagnostic pop
     }
 
     _LIBCPP_INLINE_VISIBILITY
@@ -2330,8 +2336,11 @@ function<_Rp(_ArgTypes...)>::operator=(_Fp&& __f)
     return *this;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
 template<class _Rp, class ..._ArgTypes>
 function<_Rp(_ArgTypes...)>::~function() {}
+#pragma GCC diagnostic pop
 
 template<class _Rp, class ..._ArgTypes>
 void
